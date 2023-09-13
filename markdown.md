@@ -49,6 +49,8 @@ char * copy_input(char *user_supplied_string){
 ```
 El programador intenta codificar el caracter & en la cadena controlada por el usuario, sin embargo, la longitud de la cadena se valida antes de aplicar el procedimiento de codificacion. Ademas, el programador asume que la expansion de la codificacion solo expandira un caracter dado por un factor de 4, mientras que la codificacion del & expande por 5. Como resulado, cuando el procedimiento de codificacion expande la cadena es posible desbordar el buffer del destino si el atacante proporciona una cadena con muchos &s.
 
+test
+
 
 
 # References 
