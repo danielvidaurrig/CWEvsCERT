@@ -21,11 +21,33 @@ Como resultado, un atacante puede ser capaz de ejecutar código arbitrario, alte
 
 Ejemplo
 
-Este ejemplo aplica un procedimiento de codificacion a una cadena de entrada y la almacena en un bufer.
+Este ejemplo aplica un procedimiento de codificacion a una cadena de entrada y la almacena en un buffer.
 
 ```
-
+char * copy_input(char *user_supplied_string){
+    int i, dst_index;
+    char *dst_buf = (char*)malloc(4*sizeof(char) * MAX_SIZE);
+    if ( MAX_SIZE <= strlen(user_supplied_string) ){
+        die("user string too long, die evil hacker!");
+    }
+    dst_index = 0;
+    for ( i = 0; i < strlen(user_supplied_string); i++ ){
+        if( '&' == user_supplied_string[i] ){
+            dst_buf[dst_index++] = '&';
+            dst_buf[dst_index++] = 'a';
+            dst_buf[dst_index++] = 'm';
+            dst_buf[dst_index++] = 'p';
+            dst_buf[dst_index++] = ';';
+        }
+        else if ('<' == user_supplied_string[i] ){
+            /* encode to &lt; */
+        }
+        else dst_buf[dst_index++] = user_supplied_string[i];
+    }
+    return dst_buf;
+}
 ```
+El programador intenta codificar el caracter & en la cadena controlada por el usuario, sin embargo, la longitud de la cadena se valida antes de aplicar el procedimiento de codificacion. Ademas, el programador asume que la expansion de la codificacion solo expandira un caracter dado por un factor de 4, mientras que la codificacion del & expande por 5. Como resulado, cuando el procedimiento de codificacion expande la cadena es posible desbordar el buffer del destino si el atacante proporciona una cadena con muchos &s.
 
 
 
